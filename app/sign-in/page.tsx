@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default function AuthenticationPage() {
+    
   return (
     <>
       <div className="md:hidden">

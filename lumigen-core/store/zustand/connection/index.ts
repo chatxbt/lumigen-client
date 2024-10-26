@@ -5,7 +5,7 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 
 const storageName = 'connection-storage'
 
-export const useConnectionStore = create<ConnectionStore | any>()(
+export const useConnectionStore = create<any>()(
   devtools(
     persist(
       (set: any) => ({

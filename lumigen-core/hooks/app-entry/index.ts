@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+// import { useRouter} from "next/navigation"
 import { useEffect } from "react";
 import { services, config } from "@lumigen-core/index";
 
@@ -8,6 +9,7 @@ export const useAppEntry = (props: any) => {
     const router = useRouter();
 
     const authService = services.auth(props);
+    alert("hi");
 
     const {
       store: { _hasHydrated, twitterAuth, connected, userInfo },
@@ -51,6 +53,8 @@ export const useAppEntry = (props: any) => {
 
       oauth_verifier && router.replace(`/`);
     }, [router.query]);
+
+    alert('hi')
 
     return {
       store: {

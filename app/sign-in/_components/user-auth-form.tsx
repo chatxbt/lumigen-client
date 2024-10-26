@@ -7,11 +7,17 @@ import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { hooks } from "@lumigen-core/index"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+  const app = hooks.useAppEntry({});
+  console.log(app);
+  console.log("hooks", hooks.useAppEntry);
+  app?.store?.connected && console.log("app Connected to backend")
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -64,7 +70,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         ) : (
           <Icons.twitter className="mr-2 h-4 w-4" />
         )}{" "}
-        X
+        
       </Button>
     </div>
   )
