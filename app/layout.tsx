@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { hooks } from "@lumigen-core/index"
 import "./globals.css";
 
 const geistSans = localFont({
@@ -23,6 +24,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const app = hooks.useAppEntry({});
+  app?.store?.connected && console.log("app Connected to backend")
+
   return (
     <html lang="en">
       <body
