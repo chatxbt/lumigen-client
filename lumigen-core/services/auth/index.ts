@@ -4,14 +4,16 @@ import {
   store,
   utils,
 } from "../..";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation"
 
 export const auth = (props: any) => {
+  const router = useRouter()
   try {
-    const router = useRouter();
+    
 
     // data provider modules
-    const { xbtRpcServer } = dataProvider;
+    const { xbtRpcServer, xbtV1Server } = dataProvider;
 
     // store module
     const { useConnectionStore } =
@@ -48,7 +50,7 @@ export const auth = (props: any) => {
       entity: any = null
     ) => {
       try {
-        const { data } = await xbtRpcServer.getTwitterAccessToken();
+        const { data } = await xbtV1Server.getTwitterAccessToken();
         const twitter_auth = data?.data;
         setTwitterAuth({ ...twitter_auth, why, entity });
         // console.log(data.data);
@@ -64,12 +66,10 @@ export const auth = (props: any) => {
     // twitter auth
     const handleTwitterAuth = async (token: any) => {
       try {
-        const ref_code = localStorage.referral_code;
 
-        const response = await xbtRpcServer.authWithSocial({
+        const response = await xbtV1Server.authWithSocial({
           token,
           provider: "twitter",
-          referer_code: ref_code ? ref_code : null,
         });
         const jwt =  response?.data?.data.token;
         const user = response?.data?.data;

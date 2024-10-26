@@ -1,3 +1,1 @@
-export const d = () => {
-    
-}
+export * from "./common"

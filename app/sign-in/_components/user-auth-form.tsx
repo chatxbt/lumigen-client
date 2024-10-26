@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { hooks } from "@lumigen-core/index"
+import { hooks, services } from "@lumigen-core/index"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -15,9 +15,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const app = hooks.useAppEntry({});
-  console.log(app);
-  console.log("hooks", hooks.useAppEntry);
   app?.store?.connected && console.log("app Connected to backend")
+
+  const {
+    store: { connected, userInfo },
+    action: { getTwitterAccess, signOut },
+  } = services.auth(app);
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -26,6 +29,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setTimeout(() => {
       setIsLoading(false)
     }, 3000)
+  }
+
+  async function onConnectX() {
+    setIsLoading(true)
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+
+    // start connect process
+    getTwitterAccess()
+
   }
 
   return (
@@ -64,7 +79,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button onClick={() => onConnectX()} variant="outline" type="button" disabled={isLoading}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (

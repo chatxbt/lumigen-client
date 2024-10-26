@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
-// import { useRouter} from "next/navigation"
+// import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react";
 import { services, config } from "@lumigen-core/index";
 
 export const useAppEntry = (props: any) => {
-
   try {
-    const router = useRouter();
 
+    const router = useRouter()
+    const searchParams = useSearchParams()
     const authService = services.auth(props);
-    alert("hi");
+    
 
     const {
       store: { _hasHydrated, twitterAuth, connected, userInfo },
@@ -23,7 +23,8 @@ export const useAppEntry = (props: any) => {
     }, [connected]);
 
     useEffect(() => {
-      const { oauth_verifier, oauth_token }: any = router.query;
+      const oauth_verifier = searchParams.get("oauth_verifier")
+      const oauth_token  = searchParams.get("oauth_token")
 
       twitterAuth?.why &&
         twitterAuth?.why === "social_auth" &&
@@ -52,9 +53,7 @@ export const useAppEntry = (props: any) => {
         // });
 
       oauth_verifier && router.replace(`/`);
-    }, [router.query]);
-
-    alert('hi')
+    }, []);
 
     return {
       store: {
@@ -65,5 +64,8 @@ export const useAppEntry = (props: any) => {
         getTwitterAccess,
       },
     };
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 };
