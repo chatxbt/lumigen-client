@@ -20,7 +20,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const {
     store: { connected, userInfo },
     action: { getTwitterAccess, signOut },
-  } = services.auth(app);
+  } = services.auth({});
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
